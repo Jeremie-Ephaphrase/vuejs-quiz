@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Jeremie Kobo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css">
 </head>
 
 <body>
@@ -35,9 +35,7 @@
             </div>
         </div>
         <div v-show="questionIndex === quiz.questions.length">
-            <h2>
-                You Killed it!!
-            </h2>
+
             <p>
                 Your Final Marks: {{ score() }} / {{ quiz.questions.length }} <br>try again.
             </p>
