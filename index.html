@@ -1,245 +1,326 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Jeremie Kobo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" type="text/css" media="screen" href="main.css">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Jeremie Kobo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css">
 </head>
+
 <body>
-  
-  <div id="app">
-    <h1>{{ quiz.title }}</h1>
-    <div v-for="(question, index) in quiz.questions">
-      <div v-show="index === questionIndex">
-        <h2>{{ question.text }}</h2>
-        <ol>
-          <li v-for="response in question.responses">
-            <label>
+
+    <div id="app">
+        <h1>{{ quiz.title }}</h1>
+        <div v-for="(question, index) in quiz.questions">
+            <div v-show="index === questionIndex">
+                <h2>{{ question.text }}</h2>
+                <ol>
+                    <li v-for="response in question.responses">
+                        <label>
               <input type="radio" 
                      v-bind:value="response.correct" 
                      v-bind:name="index" 
                      v-model="userResponses[index]"> {{response.text}}
             </label>
-          </li>
-        </ol>
-        <button v-if="questionIndex > 0" v-on:click="prev">
+                    </li>
+                </ol>
+                <button v-if="questionIndex > 0" v-on:click="prev">
           Back
         </button>
-        <button v-on:click="next">
+                <button v-on:click="next">
           Next
         </button>
-      </div>
+            </div>
+        </div>
+        <div v-show="questionIndex === quiz.questions.length">
+            <h2>
+                You Killed it!!
+            </h2>
+            <p>
+                Your Final Marks: {{ score() }} / {{ quiz.questions.length }} <br>try again.
+            </p>
+        </div>
     </div>
-    <div v-show="questionIndex === quiz.questions.length">
-      <h2>
-      You Killed it!!
-    </h2>
-      <p>
-        Your Final Marks: {{ score() }} / {{ quiz.questions.length }} <br>try again.
-      </p>
-    </div>
-  </div>
-  
 
-  <script src="https://vuejs.org/js/vue.js"></script>
-  <script>
-    window.onload=function(){
-     
-      var quiz = {
-        title: 'Jeremie Quiz',
-        questions: [
-          {
-            text: "whats my name? ",
-            responses: [
-              {text: 'Jerry.'},
-              {text: 'jason'}, 
-              {text: 'jaden'},
-              {text: 'jeremie', correct: true}, 
-            ]
-          }, {
-            text: "whats is capital city of England? ",
-            responses: [
-              {text: 'Liverpool'},
-              {text: 'London', correct: true}, 
-              {text: 'Wales'},
-              {text: 'Manchester'}, 
-            ]
-          }, {
-            text: "what is the capital city of south africa? ",
-            responses: [
-              {text: 'Pretoria', correct: true},
-              {text:'Durban'}, 
-              {text: 'New York'},
-              {text: 'Limpopo'}, 
-            ]
-          }, {
-            text: "what is the capital city of USA? ",
-            responses: [
-              {text:'Las Angeles'},
-              {text: 'Detriot'}, 
-              {text: 'Washington DC', correct: true},
-              {text: 'Chicago'}, 
-            ]
-          }, {
-            text: "Founder of Facebook? ",
-            responses: [
-              {text: 'Steve Jobs'},
-              {text: 'Elon Musk'}, 
-              {text: 'Bill Gates'},
-              {text: 'Mark Zukenburg', correct: true}, 
-            ]
-          }, {
-            text: "where was mandela born? ",
-            responses: [
-              {text: 'kwazulu-Natal.'},
-              {text: 'Qunu', correct: true}, 
-              {text: 'Mannenburg'},
-              {text: 'Kampsbay'}, 
-            ]
-          }, {
-            text: "1 + 1=? ",
-            responses: [
-              {text: '5'},
-              {text: '9'}, 
-              {text: '8'},
-              {text: '2', correct: true}, 
-            ]
-          }, {
-            text: "who is Brad Pitt? ",
-            responses: [
-              {text: 'I dont know'},
-              {text: 'Photographer'}, 
-              {text: 'Actor', correct: true},
-              {text: 'Actress'}, 
-            ]
-          }, {
-            text: "who is Ronaldo? ",
-            responses: [
-              {text: 'Footballer, correct: true'},
-              {text: 'Coach'}, 
-              {text: 'Referee'},
-              {text: 'I dont know'}, 
-            ]
-          }, {
-            text: "Capital city Of France? ",
-            responses: [
-              {text: 'Napoli'},
-              {text: 'Brussels'}, 
-              {text: 'Paris', correct: true},
-              {text: 'Lyon'}, 
-            ]
-          }, {
-            text: "Founder of Microsoft? ",
-            responses: [
-              {text: 'Bill Clinton'},
-              {text: 'Quincy Larson'}, 
-              {text: 'Bill Gates', correct: true},
-              {text: 'Elon Musk'}, 
-            ]
-          }, {
-            text: "Founder of Apple? ",
-            responses: [
-              {text: 'Bill Gates'},
-              {text: 'Elon Musk'}, 
-              {text: 'Harry Potter'},
-              {text: 'Steve Jobs', correct: true}, 
-            ]
-          }, {
-            text: "what colour is a Banana? ",
-            responses: [
-              {text: 'Yellow.', correct: true},
-              {text: 'Pink'}, 
-              {text: 'Orange'},
-              {text: 'Brown'}, 
-            ]
-          }, {
-            text: "Example of a Fruit? ",
-            responses: [
-              {text: 'Spagetti'},
-              {text: 'Beef'}, 
-              {text: 'Beans'},
-              {text: 'Grapes', correct: true}, 
-            ]
-          }, {
-            text: "what city do we live in? ",
-            responses: [
-              {text: 'I dont know'},
-              {text: 'Cape Town', correct: true}, 
-              {text: 'Paarl'},
-              {text: 'Queens Town'}, 
-            ]
-          }, {
-            text: "where is Berlin? ",
-            responses: [
-              {text: 'Germany', correct: true},
-              {text: 'Poland'}, 
-              {text: 'Luxemburg'},
-              {text: 'Netherland'}, 
-            ]
-          }, {
-            text: "where is Toronto? ",
-            responses: [
-              {text: 'Brazil'},
-              {text: 'Canada', correct: true}, 
-              {text: 'Argentina'},
-              {text: 'Cuba'}, 
-            ]
-          }, {
-            text: "where is Rome? ",
-            responses: [
-              {text: 'Belguim'},
-              {text: 'Russia'}, 
-              {text: 'China'},
-              {text: 'Italy', correct: true}, 
-            ]
-          }, {
-            text: "50 - 45? ",
-            responses: [
-              {text: 'I dont know'},
-              {text: '56'}, 
-              {text: '6'},
-              {text: '5', correct: true}, 
-            ]
-          },
-           {
-            text: "where is germany located ?",
-            responses: [
-              {text: 'Europe', correct: true}, 
-              {text: 'Asia'},
-              {text: 'africa'},
-              {text:'america'}, 
-            ]
-          } 
-        ]
-      };
-            
-      new Vue({
-        el: '#app',
-        data: {
-          quiz: quiz,
-        
-          questionIndex: 0,
-          
-          userResponses: Array(quiz.questions.length).fill(false)
-        },
-       
-        methods: {
-         
-          next: function() {
-            this.questionIndex++;
-          },
-         
-          prev: function() {
-            this.questionIndex--;
-          },
-          
-          score: function() {
-            return this.userResponses.filter(function(val) { return val }).length;
-          }
+
+    <script src="https://vuejs.org/js/vue.js"></script>
+    <script>
+        window.onload = function() {
+
+            var quiz = {
+                title: 'Jeremie Quiz',
+                questions: [{
+                    text: "whats my name? ",
+                    responses: [{
+                        text: 'Jerry.'
+                    }, {
+                        text: 'jason'
+                    }, {
+                        text: 'jaden'
+                    }, {
+                        text: 'jeremie',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "whats is capital city of England? ",
+                    responses: [{
+                        text: 'Liverpool'
+                    }, {
+                        text: 'London',
+                        correct: true
+                    }, {
+                        text: 'Wales'
+                    }, {
+                        text: 'Manchester'
+                    }, ]
+                }, {
+                    text: "what is the capital city of south africa? ",
+                    responses: [{
+                        text: 'Pretoria',
+                        correct: true
+                    }, {
+                        text: 'Durban'
+                    }, {
+                        text: 'New York'
+                    }, {
+                        text: 'Limpopo'
+                    }, ]
+                }, {
+                    text: "what is the capital city of USA? ",
+                    responses: [{
+                        text: 'Las Angeles'
+                    }, {
+                        text: 'Detriot'
+                    }, {
+                        text: 'Washington DC',
+                        correct: true
+                    }, {
+                        text: 'Chicago'
+                    }, ]
+                }, {
+                    text: "Founder of Facebook? ",
+                    responses: [{
+                        text: 'Steve Jobs'
+                    }, {
+                        text: 'Elon Musk'
+                    }, {
+                        text: 'Bill Gates'
+                    }, {
+                        text: 'Mark Zukenburg',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "where was mandela born? ",
+                    responses: [{
+                        text: 'kwazulu-Natal.'
+                    }, {
+                        text: 'Qunu',
+                        correct: true
+                    }, {
+                        text: 'Mannenburg'
+                    }, {
+                        text: 'Kampsbay'
+                    }, ]
+                }, {
+                    text: "1 + 1=? ",
+                    responses: [{
+                        text: '5'
+                    }, {
+                        text: '9'
+                    }, {
+                        text: '8'
+                    }, {
+                        text: '2',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "who is Brad Pitt? ",
+                    responses: [{
+                        text: 'I dont know'
+                    }, {
+                        text: 'Photographer'
+                    }, {
+                        text: 'Actor',
+                        correct: true
+                    }, {
+                        text: 'Actress'
+                    }, ]
+                }, {
+                    text: "who is Ronaldo? ",
+                    responses: [{
+                        text: 'Footballer',
+                        correct: true
+                    }, {
+                        text: 'Coach'
+                    }, {
+                        text: 'Referee'
+                    }, {
+                        text: 'I dont know'
+                    }, ]
+                }, {
+                    text: "Capital city Of France? ",
+                    responses: [{
+                        text: 'Napoli'
+                    }, {
+                        text: 'Brussels'
+                    }, {
+                        text: 'Paris',
+                        correct: true
+                    }, {
+                        text: 'Lyon'
+                    }, ]
+                }, {
+                    text: "Founder of Microsoft? ",
+                    responses: [{
+                        text: 'Bill Clinton'
+                    }, {
+                        text: 'Quincy Larson'
+                    }, {
+                        text: 'Bill Gates',
+                        correct: true
+                    }, {
+                        text: 'Elon Musk'
+                    }, ]
+                }, {
+                    text: "Founder of Apple? ",
+                    responses: [{
+                        text: 'Bill Gates'
+                    }, {
+                        text: 'Elon Musk'
+                    }, {
+                        text: 'Harry Potter'
+                    }, {
+                        text: 'Steve Jobs',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "what colour is a Banana? ",
+                    responses: [{
+                        text: 'Yellow.',
+                        correct: true
+                    }, {
+                        text: 'Pink'
+                    }, {
+                        text: 'Orange'
+                    }, {
+                        text: 'Brown'
+                    }, ]
+                }, {
+                    text: "Example of a Fruit? ",
+                    responses: [{
+                        text: 'Spagetti'
+                    }, {
+                        text: 'Beef'
+                    }, {
+                        text: 'Beans'
+                    }, {
+                        text: 'Grapes',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "what city do we live in? ",
+                    responses: [{
+                        text: 'I dont know'
+                    }, {
+                        text: 'Cape Town',
+                        correct: true
+                    }, {
+                        text: 'Paarl'
+                    }, {
+                        text: 'Queens Town'
+                    }, ]
+                }, {
+                    text: "where is Berlin? ",
+                    responses: [{
+                        text: 'Germany',
+                        correct: true
+                    }, {
+                        text: 'Poland'
+                    }, {
+                        text: 'Luxemburg'
+                    }, {
+                        text: 'Netherland'
+                    }, ]
+                }, {
+                    text: "where is Toronto? ",
+                    responses: [{
+                        text: 'Brazil'
+                    }, {
+                        text: 'Canada',
+                        correct: true
+                    }, {
+                        text: 'Argentina'
+                    }, {
+                        text: 'Cuba'
+                    }, ]
+                }, {
+                    text: "where is Rome? ",
+                    responses: [{
+                        text: 'Belguim'
+                    }, {
+                        text: 'Russia'
+                    }, {
+                        text: 'China'
+                    }, {
+                        text: 'Italy',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "50 - 45? ",
+                    responses: [{
+                        text: 'I dont know'
+                    }, {
+                        text: '56'
+                    }, {
+                        text: '6'
+                    }, {
+                        text: '5',
+                        correct: true
+                    }, ]
+                }, {
+                    text: "where is germany located ?",
+                    responses: [{
+                        text: 'Europe',
+                        correct: true
+                    }, {
+                        text: 'Asia'
+                    }, {
+                        text: 'africa'
+                    }, {
+                        text: 'america'
+                    }, ]
+                }]
+            };
+
+            new Vue({
+                el: '#app',
+                data: {
+                    quiz: quiz,
+
+                    questionIndex: 0,
+
+                    userResponses: Array(quiz.questions.length).fill(false)
+                },
+
+                methods: {
+
+                    next: function() {
+                        this.questionIndex++;
+                    },
+
+                    prev: function() {
+                        this.questionIndex--;
+                    },
+
+                    score: function() {
+                        return this.userResponses.filter(function(val) {
+                            return val
+                        }).length;
+                    }
+                }
+            });
         }
-      });
-    }
-  </script>
+    </script>
 </body>
